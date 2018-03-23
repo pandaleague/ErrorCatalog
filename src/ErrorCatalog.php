@@ -16,6 +16,7 @@ class ErrorCatalog
     public function __construct($namespace, $language = 'en-US')
     {
         $this->namespace = $namespace;
+        $this->language = $language;
     }
 
     /**
