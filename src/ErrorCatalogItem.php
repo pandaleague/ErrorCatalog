@@ -43,4 +43,32 @@ class ErrorCatalogItem
         return $this;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getIssueById($id)
+    {
+        $return = [];
+        foreach ($this->issues as $issue) {
+            if ($issue->getId() == $id) {
+                $return[] = $issue;
+            }
+        }
+
+        return $return;
+    }
+
+    public function getIssueByJsonPointer($jsonPointer)
+    {
+        $return = [];
+        foreach ($this->issues as $issue) {
+            if ($issue->getJsonPointer() == $jsonPointer) {
+                $return[] = $issue;
+            }
+        }
+
+        return $return;
+    }
 }
