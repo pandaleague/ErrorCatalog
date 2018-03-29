@@ -48,6 +48,11 @@ class ErrorCatalogItem
         return $this->name;
     }
 
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
     public function getIssueById($id)
     {
         $return = [];
