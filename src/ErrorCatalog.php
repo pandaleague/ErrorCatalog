@@ -42,7 +42,7 @@ class ErrorCatalog
 
     /**
      * @param $name
-     * @return ErrorCatalogItem
+     * @return ErrorCatalogItem|null
      */
     public function getItem($name)
     {
@@ -51,5 +51,7 @@ class ErrorCatalog
                 return $error;
             }
         }
+
+        return null;
     }
 }

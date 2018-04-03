@@ -65,11 +65,11 @@ class ErrorCatalogItem
         return $return;
     }
 
-    public function getIssueByJsonPointer($jsonPointer)
+    public function getIssueByReference($reference)
     {
         $return = [];
         foreach ($this->issues as $issue) {
-            if ($issue->getJsonPointer() == $jsonPointer) {
+            if ($issue->getReference() == $reference) {
                 $return[] = $issue;
             }
         }
