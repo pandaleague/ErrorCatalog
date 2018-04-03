@@ -6,5 +6,6 @@
             "PandaLeague\\ErrorCatalog\\": "src/"
         }
     },
-    "require": {}
+    "require": {},
+    "license": "MIT"
 }
