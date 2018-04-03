@@ -1,0 +1,10 @@
+{
+    "name": "panda-league/error-catalog",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "PandaLeague\\ErrorCatalog\\": "src/"
+        }
+    },
+    "require": {}
+}

@@ -43,4 +43,37 @@ class ErrorCatalogItem
         return $this;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    public function getIssueById($id)
+    {
+        $return = [];
+        foreach ($this->issues as $issue) {
+            if ($issue->getId() == $id) {
+                $return[] = $issue;
+            }
+        }
+
+        return $return;
+    }
+
+    public function getIssueByReference($reference)
+    {
+        $return = [];
+        foreach ($this->issues as $issue) {
+            if ($issue->getReference() == $reference) {
+                $return[] = $issue;
+            }
+        }
+
+        return $return;
+    }
 }

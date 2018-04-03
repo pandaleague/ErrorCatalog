@@ -4,22 +4,54 @@ namespace PandaLeague\ErrorCatalog;
 
 class ErrorCatalog
 {
+    /**
+     * @var string
+     */
     protected $namespace;
-    protected $defaultLanguage;
+
+    /**
+     * @var string
+     */
+    protected $language;
+
+    /**
+     * @var array|ErrorCatalogItem[]
+     */
     protected $catalog = [];
 
-    public function __construct($namespace)
+    /**
+     * ErrorCatalog constructor.
+     * @param string $namespace
+     * @param string $language
+     */
+    public function __construct($namespace, $language = 'en-US')
     {
         $this->namespace = $namespace;
+        $this->language = $language;
     }
 
-    public function addItem($language, ErrorCatalogItem $error)
+    /**
+     * @param ErrorCatalogItem $error
+     * @return $this
+     */
+    public function addItem(ErrorCatalogItem $error)
     {
-        if (!isset($this->catalog[$language])) {
-            $this->catalog[$language] = [];
+        $this->catalog[] = $error;
+        return $this;
+    }
+
+    /**
+     * @param $name
+     * @return ErrorCatalogItem|null
+     */
+    public function getItem($name)
+    {
+        foreach ($this->catalog as $error) {
+            if ($name == $error->getName()) {
+                return $error;
+            }
         }
 
-        $this->catalog[$language][] = $error;
-        return $this;
+        return null;
     }
 }
