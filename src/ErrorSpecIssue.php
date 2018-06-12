@@ -51,8 +51,20 @@ class ErrorSpecIssue
     /**
      * @return string
      */
-    public function getIssue()
+    public function getIssue(array $parameters = [])
     {
+        // If parameters have been provided, then ensure that each of the keys are wrapped
+        // with curly braces, and prepare it before passing it through strtr()
+        if (!empty($parameters))
+        {
+            $parsed = [];
+
+            foreach ($parameters as $key => $value)
+                $parsed['{' . $key . '}'] = $value;
+
+            return strtr($this->issue, $parsed);
+        }
+
         return $this->issue;
     }
 }
