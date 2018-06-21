@@ -55,12 +55,12 @@ class ErrorSpecIssue
     {
         // If parameters have been provided, then ensure that each of the keys are wrapped
         // with curly braces, and prepare it before passing it through strtr()
-        if (!empty($parameters))
-        {
+        if (!empty($parameters)) {
             $parsed = [];
 
-            foreach ($parameters as $key => $value)
+            foreach ($parameters as $key => $value) {
                 $parsed['{' . $key . '}'] = $value;
+            }
 
             return strtr($this->issue, $parsed);
         }
