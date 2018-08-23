@@ -19,6 +19,9 @@ class ErrorSpecIssue
      */
     protected $issue;
 
+    /** @var array an array of parameters to be replaced in the issue message */
+    protected $parameters;
+
     /**
      * ErrorSpecIssue constructor.
      * @param string $id
@@ -49,10 +52,29 @@ class ErrorSpecIssue
     }
 
     /**
+     * @return $this
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+        
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    private function getParameters($parameters)
+    {
+        return $this->parameters;
+    }
+
+    /**
      * @return string
      */
-    public function getIssue(array $parameters = [])
+    public function getIssue()
     {
+        $parameters = $this->getParameters();
         // If parameters have been provided, then ensure that each of the keys are wrapped
         // with curly braces, and prepare it before passing it through strtr()
         if (!empty($parameters)) {
