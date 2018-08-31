@@ -64,7 +64,7 @@ class ErrorSpecIssue
     /**
      * @return array
      */
-    private function getParameters($parameters)
+    private function getParameters()
     {
         return $this->parameters;
     }
