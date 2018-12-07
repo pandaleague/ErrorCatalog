@@ -7,6 +7,7 @@ class ErrorCatalogItem
     protected $name;
     protected $message;
     protected $httpStatusCodes;
+
     protected $logLevel;
     protected $suggestedApplicationActions = [];
     protected $suggestedUserActions = [];
@@ -51,6 +52,11 @@ class ErrorCatalogItem
     public function getMessage()
     {
         return $this->message;
+    }
+
+    public function getHttpStatusCodes()
+    {
+        return $this->httpStatusCodes;
     }
 
     public function getIssueById($id)
