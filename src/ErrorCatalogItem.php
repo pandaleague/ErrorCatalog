@@ -4,13 +4,17 @@ namespace PandaLeague\ErrorCatalog;
 
 class ErrorCatalogItem
 {
-    protected $name;
-    protected $message;
-    protected $httpStatusCodes;
+    private $name;
+    private $message;
+    private $httpStatusCodes;
 
-    protected $logLevel;
-    protected $suggestedApplicationActions = [];
-    protected $suggestedUserActions = [];
+    private $logLevel;
+    private $suggestedApplicationActions = [];
+    private $suggestedUserActions = [];
+
+    /**
+     * @var ErrorSpecIssue[]
+     */
     protected $issues = [];
 
     public function __construct($name, $message, array $httpStatusCodes)
@@ -59,6 +63,10 @@ class ErrorCatalogItem
         return $this->httpStatusCodes;
     }
 
+    /**
+     * @param $id
+     * @return ErrorSpecIssue[]
+     */
     public function getIssueById($id)
     {
         $return = [];
@@ -71,6 +79,10 @@ class ErrorCatalogItem
         return $return;
     }
 
+    /**
+     * @param $reference
+     * @return ErrorSpecIssue[]
+     */
     public function getIssueByReference($reference)
     {
         $return = [];

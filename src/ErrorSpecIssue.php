@@ -7,20 +7,20 @@ class ErrorSpecIssue
     /**
      * @var string $id The ID for the issue.
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string A reference to identify the issue by. Can be used to retrieve the issue but normally not shown in the catalog
      */
-    protected $reference;
+    private $reference;
 
     /**
      * @var string $issue Use String Formatter syntax to format the issue as a parameterized string. Localize the string.
      */
-    protected $issue;
+    private $issue;
 
     /** @var array an array of parameters to be replaced in the issue message */
-    protected $parameters;
+    private $parameters;
 
     /**
      * ErrorSpecIssue constructor.

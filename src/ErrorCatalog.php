@@ -7,17 +7,17 @@ class ErrorCatalog
     /**
      * @var string
      */
-    protected $namespace;
+    private $namespace;
 
     /**
      * @var string
      */
-    protected $language;
+    private $language;
 
     /**
      * @var array|ErrorCatalogItem[]
      */
-    protected $catalog = [];
+    private $catalog = [];
 
     /**
      * ErrorCatalog constructor.
@@ -26,6 +26,7 @@ class ErrorCatalog
      */
     public function __construct($namespace, $language = 'en-US')
     {
+    	// ? not used anywhere?
         $this->namespace = $namespace;
         $this->language = $language;
     }
