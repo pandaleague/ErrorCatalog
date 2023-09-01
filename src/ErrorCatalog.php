@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PandaLeague\ErrorCatalog;
 
 class ErrorCatalog
@@ -15,39 +17,26 @@ class ErrorCatalog
     protected $language;
 
     /**
-     * @var array|ErrorCatalogItem[]
+     * @var ErrorCatalogItem[]
      */
     protected $catalog = [];
 
-    /**
-     * ErrorCatalog constructor.
-     * @param string $namespace
-     * @param string $language
-     */
-    public function __construct($namespace, $language = 'en-US')
+    public function __construct(string $namespace, string $language = 'en-US')
     {
         $this->namespace = $namespace;
         $this->language = $language;
     }
 
-    /**
-     * @param ErrorCatalogItem $error
-     * @return $this
-     */
-    public function addItem(ErrorCatalogItem $error)
+    public function addItem(ErrorCatalogItem $error): ErrorCatalog
     {
         $this->catalog[] = $error;
         return $this;
     }
 
-    /**
-     * @param $name
-     * @return ErrorCatalogItem|null
-     */
-    public function getItem($name)
+    public function getItem(string $name): ?ErrorCatalogItem
     {
         foreach ($this->catalog as $error) {
-            if ($name == $error->getName()) {
+            if ($name === $error->getName()) {
                 return $error;
             }
         }
