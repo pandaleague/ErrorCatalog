@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PandaLeague\ErrorCatalog;
 
 class ErrorSpecIssue
@@ -20,67 +22,45 @@ class ErrorSpecIssue
     protected $issue;
 
     /** @var array an array of parameters to be replaced in the issue message */
-    protected $parameters;
+    protected $parameters = [];
 
-    /**
-     * ErrorSpecIssue constructor.
-     * @param string $id
-     * @param string $reference
-     * @param string $issue
-     */
-    public function __construct($id, $reference, $issue)
+    public function __construct(string $id, string $reference, string $issue)
     {
         $this->id = $id;
         $this->reference = $reference;
         $this->issue = $issue;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getReference()
+    public function getReference(): string
     {
         return $this->reference;
     }
 
-    /**
-     * @return $this
-     */
-    public function setParameters($parameters)
+    public function setParameters(array $parameters): ErrorSpecIssue
     {
         $this->parameters = $parameters;
         
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    private function getParameters()
+    private function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * @return string
-     */
-    public function getIssue()
+    public function getIssue(): string
     {
-        $parameters = $this->getParameters();
         // If parameters have been provided, then ensure that each of the keys are wrapped
         // with curly braces, and prepare it before passing it through strtr()
-        if (!empty($parameters)) {
+        if (!empty($this->getParameters())) {
             $parsed = [];
 
-            foreach ($parameters as $key => $value) {
+            foreach ($this->getParameters() as $key => $value) {
                 $parsed['{' . $key . '}'] = $value;
             }
 

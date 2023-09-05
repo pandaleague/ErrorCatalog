@@ -1,85 +1,127 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PandaLeague\ErrorCatalog;
 
 class ErrorCatalogItem
 {
+    /** @var string  */
     protected $name;
+
+    /** @var string  */
     protected $message;
+
+    /** @var array  */
     protected $httpStatusCodes;
 
+    /** @var string */
     protected $logLevel;
+
     protected $suggestedApplicationActions = [];
     protected $suggestedUserActions = [];
     protected $issues = [];
 
-    public function __construct($name, $message, array $httpStatusCodes)
+    public function __construct(string $name, string $message, array $httpStatusCodes)
     {
         $this->name = $name;
         $this->message = $message;
         $this->httpStatusCodes = $httpStatusCodes;
     }
 
-    public function setLogLevel($logLevel)
+    public function setLogLevel(string $logLevel): ErrorCatalogItem
     {
         $this->logLevel = $logLevel;
         return $this;
     }
 
-    public function addSuggestedApplicationAction($action)
+    public function getLogLevel(): ?string
+    {
+        return $this->logLevel;
+    }
+
+    public function addSuggestedApplicationAction(string $action): ErrorCatalogItem
     {
         $this->suggestedApplicationActions[] = $action;
         return $this;
     }
 
-    public function addSuggestedUserAction($action)
+    public function getSuggestedApplicationActions(): array
+    {
+        return $this->suggestedApplicationActions;
+    }
+
+    public function addSuggestedUserAction(string $action): ErrorCatalogItem
     {
         $this->suggestedUserActions[] = $action;
         return $this;
     }
 
-    public function addIssue(ErrorSpecIssue $issue)
+    public function getSuggestedUserActions(): array
+    {
+        return $this->suggestedUserActions;
+    }
+
+    public function addIssue(ErrorSpecIssue $issue): ErrorCatalogItem
     {
         $this->issues[] = $issue;
         return $this;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function getHttpStatusCodes()
+    public function getHttpStatusCodes(): array
     {
         return $this->httpStatusCodes;
     }
 
-    public function getIssueById($id)
+    /**
+     * @param string $id
+     * @return array|ErrorSpecIssue[]
+     */
+    public function getIssueById(string $id): array
     {
-        $return = [];
+        $issues = [];
         foreach ($this->issues as $issue) {
-            if ($issue->getId() == $id) {
-                $return[] = $issue;
+            if ($issue->getId() === $id) {
+                $issues[] = $issue;
             }
         }
 
-        return $return;
+        return $issues;
     }
 
-    public function getIssueByReference($reference)
+    public function getFirstIssueById(string $id): ?ErrorSpecIssue
     {
-        $return = [];
+        return $this->getIssueById($id)[0] ?? null;
+    }
+
+    /**
+     * @param string $reference
+     * @return array|ErrorSpecIssue[]
+     */
+    public function getIssueByReference(string $reference): array
+    {
+        $issues = [];
         foreach ($this->issues as $issue) {
-            if ($issue->getReference() == $reference) {
-                $return[] = $issue;
+            if ($issue->getReference() === $reference) {
+                $issues[] = $issue;
             }
         }
 
-        return $return;
+        return $issues;
+    }
+
+    public function getFirstIssueByReference(string $reference): ?ErrorSpecIssue
+    {
+        return $this->getIssueByReference($reference)[0] ?? null;
     }
 }
