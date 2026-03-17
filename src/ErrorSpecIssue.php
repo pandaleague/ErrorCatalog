@@ -10,9 +10,9 @@ class ErrorSpecIssue
     private array $parameters = [];
 
     public function __construct(
-        private readonly string $id,
-        private readonly string $reference,
-        private readonly string $issue,
+        protected readonly string $id,
+        protected readonly string $reference,
+        protected readonly string $issue,
     ) {
     }
 
