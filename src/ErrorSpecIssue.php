@@ -6,29 +6,14 @@ namespace PandaLeague\ErrorCatalog;
 
 class ErrorSpecIssue
 {
-    /**
-     * @var string $id The ID for the issue.
-     */
-    protected $id;
+    /** @var array<string, string> */
+    private array $parameters = [];
 
-    /**
-     * @var string A reference to identify the issue by. Can be used to retrieve the issue but normally not shown in the catalog
-     */
-    protected $reference;
-
-    /**
-     * @var string $issue Use String Formatter syntax to format the issue as a parameterized string. Localize the string.
-     */
-    protected $issue;
-
-    /** @var array an array of parameters to be replaced in the issue message */
-    protected $parameters = [];
-
-    public function __construct(string $id, string $reference, string $issue)
-    {
-        $this->id = $id;
-        $this->reference = $reference;
-        $this->issue = $issue;
+    public function __construct(
+        private readonly string $id,
+        private readonly string $reference,
+        private readonly string $issue,
+    ) {
     }
 
     public function getId(): string
@@ -41,26 +26,19 @@ class ErrorSpecIssue
         return $this->reference;
     }
 
-    public function setParameters(array $parameters): ErrorSpecIssue
+    public function setParameters(array $parameters): static
     {
         $this->parameters = $parameters;
-        
-        return $this;
-    }
 
-    private function getParameters(): array
-    {
-        return $this->parameters;
+        return $this;
     }
 
     public function getIssue(): string
     {
-        // If parameters have been provided, then ensure that each of the keys are wrapped
-        // with curly braces, and prepare it before passing it through strtr()
-        if (!empty($this->getParameters())) {
+        if (!empty($this->parameters)) {
             $parsed = [];
 
-            foreach ($this->getParameters() as $key => $value) {
+            foreach ($this->parameters as $key => $value) {
                 $parsed['{' . $key . '}'] = $value;
             }
 
