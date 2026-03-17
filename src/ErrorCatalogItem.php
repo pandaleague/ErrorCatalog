@@ -6,30 +6,28 @@ namespace PandaLeague\ErrorCatalog;
 
 class ErrorCatalogItem
 {
-    /** @var string  */
-    protected $name;
+    protected ?string $logLevel = null;
 
-    /** @var string  */
-    protected $message;
+    /** @var string[] */
+    protected array $suggestedApplicationActions = [];
 
-    /** @var array  */
-    protected $httpStatusCodes;
+    /** @var string[] */
+    protected array $suggestedUserActions = [];
 
-    /** @var string */
-    protected $logLevel;
+    /** @var ErrorSpecIssue[] */
+    protected array $issues = [];
 
-    protected $suggestedApplicationActions = [];
-    protected $suggestedUserActions = [];
-    protected $issues = [];
-
-    public function __construct(string $name, string $message, array $httpStatusCodes)
-    {
-        $this->name = $name;
-        $this->message = $message;
-        $this->httpStatusCodes = $httpStatusCodes;
+    /**
+     * @param int[] $httpStatusCodes
+     */
+    public function __construct(
+        protected readonly string $name,
+        protected readonly string $message,
+        protected readonly array $httpStatusCodes,
+    ) {
     }
 
-    public function setLogLevel(string $logLevel): ErrorCatalogItem
+    public function setLogLevel(string $logLevel): static
     {
         $this->logLevel = $logLevel;
         return $this;
@@ -40,7 +38,7 @@ class ErrorCatalogItem
         return $this->logLevel;
     }
 
-    public function addSuggestedApplicationAction(string $action): ErrorCatalogItem
+    public function addSuggestedApplicationAction(string $action): static
     {
         $this->suggestedApplicationActions[] = $action;
         return $this;
@@ -51,7 +49,7 @@ class ErrorCatalogItem
         return $this->suggestedApplicationActions;
     }
 
-    public function addSuggestedUserAction(string $action): ErrorCatalogItem
+    public function addSuggestedUserAction(string $action): static
     {
         $this->suggestedUserActions[] = $action;
         return $this;
@@ -62,7 +60,7 @@ class ErrorCatalogItem
         return $this->suggestedUserActions;
     }
 
-    public function addIssue(ErrorSpecIssue $issue): ErrorCatalogItem
+    public function addIssue(ErrorSpecIssue $issue): static
     {
         $this->issues[] = $issue;
         return $this;
@@ -83,20 +81,13 @@ class ErrorCatalogItem
         return $this->httpStatusCodes;
     }
 
-    /**
-     * @param string $id
-     * @return array|ErrorSpecIssue[]
-     */
+    /** @return ErrorSpecIssue[] */
     public function getIssueById(string $id): array
     {
-        $issues = [];
-        foreach ($this->issues as $issue) {
-            if ($issue->getId() === $id) {
-                $issues[] = $issue;
-            }
-        }
-
-        return $issues;
+        return array_values(array_filter(
+            $this->issues,
+            static fn(ErrorSpecIssue $issue): bool => $issue->getId() === $id,
+        ));
     }
 
     public function getFirstIssueById(string $id): ?ErrorSpecIssue
@@ -104,20 +95,13 @@ class ErrorCatalogItem
         return $this->getIssueById($id)[0] ?? null;
     }
 
-    /**
-     * @param string $reference
-     * @return array|ErrorSpecIssue[]
-     */
+    /** @return ErrorSpecIssue[] */
     public function getIssueByReference(string $reference): array
     {
-        $issues = [];
-        foreach ($this->issues as $issue) {
-            if ($issue->getReference() === $reference) {
-                $issues[] = $issue;
-            }
-        }
-
-        return $issues;
+        return array_values(array_filter(
+            $this->issues,
+            static fn(ErrorSpecIssue $issue): bool => $issue->getReference() === $reference,
+        ));
     }
 
     public function getFirstIssueByReference(string $reference): ?ErrorSpecIssue
